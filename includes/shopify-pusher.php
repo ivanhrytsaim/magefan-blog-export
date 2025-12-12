@@ -15,10 +15,17 @@ class MAGESHBL_ShopifyPusher
                 'entity' => $entity,
             ],
             'timeout' => 15,
-            'headers' => [
-                'Content-Type' => 'application/x-www-form-urlencoded',
-            ],
         ];
+
+        if (strpos($url,'magefan-blogimport') !== false) {
+            $args['headers']['Content-Type'] = 'application/json';
+            $dataArray = is_string($data) ? json_decode($data, true) : $data;
+
+            $args['body'] = wp_json_encode([
+                'data' => $dataArray,
+                'entity' => $entity,
+            ]);
+        }
 
         $response = wp_remote_post($url, $args);
 

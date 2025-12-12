@@ -97,7 +97,9 @@ class MAGESHBL_Admin {
             if (!wp_verify_nonce($mageshbl_nonce, 'magefan_export_action')) {
                 wp_send_json_error('Invalid nonce.');
             }
-
+            if (!current_user_can('manage_options')) {
+                wp_send_json_error(['error' => 'No permission']);
+            }
             $export = new MAGESHBL_Export();
             $entity = isset($_GET['entity']) ? sanitize_text_field(wp_unslash($_GET['entity'])) : '';
             $entitiesLimit = isset($_GET['entitiesLimit']) ? (int) absint(wp_unslash($_GET['entitiesLimit'])) : 0;
@@ -179,7 +181,9 @@ class MAGESHBL_Admin {
             if (!wp_verify_nonce($mageshbl_nonce, 'magefan_export_action')) {
                 wp_send_json_error('Invalid nonce.');
             }
-
+            if (!current_user_can('manage_options')) {
+                wp_send_json_error(['error' => 'No permission']);
+            }
             $entity = isset($_POST['entity']) ? sanitize_text_field(wp_unslash($_POST['entity'])) : '';
             $shopifyUrl = isset($_POST['shopifyUrl']) ? esc_url_raw(wp_unslash($_POST['shopifyUrl'])) : '';
             $data = isset($_POST['data']) ? sanitize_text_field(wp_unslash($_POST['data'])) : '';

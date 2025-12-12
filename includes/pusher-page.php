@@ -13,6 +13,9 @@ $mageshbl_nonce = isset($_POST['mageshbl_nonce'])
 if (!wp_verify_nonce($mageshbl_nonce, 'magefan_export_action')) {
     wp_die('Nonce verification failed.');
 }
+if (!current_user_can('manage_options')) {
+    wp_die('You do not have permission to perform this action.');
+}
 wp_register_style('mageshbl-inline-css', false);
 wp_enqueue_style('mageshbl-inline-css');
 $mageshbl_custom_css = "
